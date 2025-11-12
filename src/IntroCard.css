@@ -1,0 +1,20 @@
+.intro-card {
+  max-width: 500px;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(6px);
+}
+
+.profile-avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+}
+
+.profile-placeholder {
+  width: 80px;
+  height: 80px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #555;
+}

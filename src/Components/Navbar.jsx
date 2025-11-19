@@ -60,7 +60,7 @@ export default function Navbar() {
             <div className="w-10 h-10 bg-gradient-to-r from-red-500 to-orange-500 rounded-xl flex items-center justify-center text-white text-2xl shadow-md">
               🍕
             </div>
-            <span className="font-bold text-3xl text-gray-800">Pizza House</span>
+            <span className="font-bold text-2xl text-gray-800">Pizza House</span>
           </Link>
 
           {/* Desktop Menu */}
@@ -115,7 +115,7 @@ export default function Navbar() {
               to="/cart"
               className="relative p-2 rounded-xl bg-white text-gray-700 hover:bg-red-50 hover:text-red-500 transition"
             >
-              <ShoppingCart size={22} />
+              <ShoppingCart size={25} />
               {totalItems > 0 && (
                 <span className="absolute -top-1 -right-1 bg-red-500 text-white text-[10px] font-bold rounded-full w-4 h-4 flex items-center justify-center shadow-md">
                   {totalItems > 99 ? "99+" : totalItems}
@@ -128,7 +128,7 @@ export default function Navbar() {
               onClick={() => setIsLoginOpen(true)}
               className="p-2 rounded-xl bg-white text-gray-700 hover:bg-red-50 hover:text-red-500 transition"
             >
-              <User size={22} />
+              <User size={25} />
             </button>
 
             {/* Menu Toggle */}

@@ -51,7 +51,7 @@ export default function About() {
         <div className="grid lg:grid-cols-2 gap-10 items-center">
           {/* Chef Image Card */}
           <div className="relative group">
-            <div className="absolute -inset-3 bg-gradient-to-r from-red-500 to-orange-500 rounded-3xl opacity-20 group-hover:opacity-30 blur transition duration-1000 group-hover:duration-200"></div>
+            <div className="absolute -inset-3 bg-gradient-to-r from-red-100 to-orange-100 rounded-3xl opacity-20 group-hover:opacity-30 blur transition duration-1000 group-hover:duration-200"></div>
             <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
               <div className="aspect-square bg-gradient-to-br from-red-100 to-orange-100 flex items-center justify-center">
                 <img

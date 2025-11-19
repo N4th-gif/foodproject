@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/Navbar";
@@ -8,15 +7,15 @@ import Menu from "./pages/Menu";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import CartPage from "./pages/CartPage";
-// import Navbar from "./Components/nav";
+import ScrollToTop from "./Components/ScrollToTop";
 
 export default function App() {
   return (
     <CartProvider>
       <Router>
+        <ScrollToTop />
         <Navbar />
         <div className="font-sans bg-gray-50 min-h-screen">
-          
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />

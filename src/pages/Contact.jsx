@@ -14,7 +14,7 @@ export default function Contact() {
 
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-7 mt-4">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-red-500 rounded-full mb-4 shadow-xl">
             <FaPhone className="text-white w-8 h-8" />
           </div>
@@ -101,17 +101,17 @@ export default function Contact() {
                 <a
                   href="https://www.facebook.com/share/19iGao9qZJ/?mibextid=wwXIfr"
                   target="_blank"
-                  className="group p-4 rounded-xl bg-blue-50 hover:bg-blue-500 transition-all hover:scale-105 border"
+                  className="group p-4 rounded-xl bg-blue-50 hover:bg-blue-500 transition-all duration-300 hover:scale-105 border border-blue-100 active:scale-95 active:bg-blue-400 touch-manipulation"
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                      <FaFacebookF className="w-6 h-6 text-blue-500" />
+                  <div className="flex flex-col items-center text-center space-y-2">
+                    <div className="w-15 h-15 bg-white rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-110">
+                      <FaFacebookF className="w-8 h-8 text-blue-600 group-hover:text-blue-500 transition-colors duration-300" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 group-hover:text-white">
+                      <p className="font-semibold text-gray-900 group-hover:text-white text-xl transition-colors duration-300">
                         Facebook
                       </p>
-                      <p className="text-sm text-gray-600 group-hover:text-blue-100">
+                      <p className="text-lg text-gray-600 group-hover:text-blue-100 transition-colors duration-300">
                         Follow us
                       </p>
                     </div>
@@ -122,15 +122,15 @@ export default function Contact() {
                 <a
                   href="https://www.instagram.com/chomnan_phanith?igsh=aXo1bGoybjl1NnFi"
                   target="_blank"
-                  className="group p-4 rounded-xl bg-pink-50 hover:bg-pink-500 transition-all hover:scale-105 border"
+                  className="group p-4 rounded-xl bg-pink-50 hover:bg-pink-500 transition-all duration-300 hover:scale-105 border border-pink-100 active:scale-95 active:bg-pink-400 touch-manipulation"
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                      <FaSquareInstagram className="w-6 h-6 text-pink-500" />
+                  <div className="flex flex-col items-center text-center space-y-2">
+                    <div className="w-15 h-15 bg-white rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-110">
+                      <FaSquareInstagram className="w-8 h-8 text-pink-600 group-hover:text-pink-500 transition-colors duration-300" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 group-hover:text-white">Instagram</p>
-                      <p className="text-sm text-gray-600 group-hover:text-pink-100">Follow us</p>
+                      <p className="font-semibold text-gray-900 group-hover:text-white text-xl transition-colors duration-300">Instagram</p>
+                      <p className="text-lg text-gray-600 group-hover:text-pink-100 transition-colors duration-300">Follow us</p>
                     </div>
                   </div>
                 </a>
@@ -139,15 +139,15 @@ export default function Contact() {
                 <a
                   href="https://t.me/TevadaNith"
                   target="_blank"
-                  className="group p-4 rounded-xl bg-sky-50 hover:bg-sky-500 transition-all hover:scale-105 border"
+                  className="group p-4 rounded-xl bg-sky-50 hover:bg-sky-500 transition-all duration-300 hover:scale-105 border border-sky-100 active:scale-95 active:bg-sky-400 touch-manipulation"
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                      <BiLogoTelegram className="w-6 h-6 text-sky-500" />
+                  <div className="flex flex-col items-center text-center space-y-2">
+                    <div className="w-15 h-15 bg-white rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-110">
+                      <BiLogoTelegram className="w-8 h-8 text-sky-600 group-hover:text-sky-500 transition-colors duration-300" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 group-hover:text-white">Telegram</p>
-                      <p className="text-sm text-gray-600 group-hover:text-sky-100">Join us</p>
+                      <p className="font-semibold text-gray-900 group-hover:text-white text-xl transition-colors duration-300">Telegram</p>
+                      <p className="text-lg text-gray-600 group-hover:text-sky-100 transition-colors duration-300">Join us</p>
                     </div>
                   </div>
                 </a>
@@ -156,15 +156,15 @@ export default function Contact() {
                 <a
                   href="https://www.youtube.com/@Nithnottvd"
                   target="_blank"
-                  className="group p-4 rounded-xl bg-red-50 hover:bg-red-500 transition-all hover:scale-105 border"
+                  className="group p-4 rounded-xl bg-red-50 hover:bg-red-500 transition-all duration-300 hover:scale-105 border border-red-100 active:scale-95 active:bg-red-400 touch-manipulation"
                 >
-                  <div className="flex items-center space-x-3">
-                    <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
-                      <FaYoutube className="w-6 h-6 text-red-500" />
+                  <div className="flex flex-col items-center text-center space-y-2">
+                    <div className="w-15 h-15 bg-white rounded-xl flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300 group-hover:scale-110">
+                      <FaYoutube className="w-8 h-8 text-red-600 group-hover:text-red-500 transition-colors duration-300" />
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-900 group-hover:text-white">YouTube</p>
-                      <p className="text-sm text-gray-600 group-hover:text-red-100">Subscribe</p>
+                      <p className="font-semibold text-gray-900 group-hover:text-white text-xl transition-colors duration-300">YouTube</p>
+                      <p className="text-lg text-gray-600 group-hover:text-red-100 transition-colors duration-300">Subscribe</p>
                     </div>
                   </div>
                 </a>
@@ -192,15 +192,15 @@ export default function Contact() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <a
                 href="tel:+855962397439"
-                className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-xl font-bold text-lg hover:scale-105 transition"
+                className="bg-gradient-to-r from-red-500 to-orange-500 text-white px-6 py-3 rounded-xl font-bold text-lg hover:scale-105 transition active:scale-95 touch-manipulation"
               >
-                📞 Call Now
+                 Call Now
               </a>
               <a
                 href="mailto:pizzahouse@gmail.com"
-                className="border-2 border-red-500 text-red-500 px-6 py-3 rounded-xl font-bold text-lg hover:bg-red-500 hover:text-white transition"
+                className="border-2 border-red-500 text-red-500 px-6 py-3 rounded-xl font-bold text-lg hover:bg-red-500 hover:text-white transition active:scale-95 touch-manipulation"
               >
-                ✉️ Email Us
+                 Email Us
               </a>
             </div>
           </div>
@@ -214,9 +214,24 @@ export default function Contact() {
           66% { transform: translate(-20px, 20px) scale(0.9); }
           100% { transform: translate(0px, 0px) scale(1); }
         }
-        .animate-blob { animation: blob 7s infinite; }
+        .animate-blob { 
+          animation: blob 7s infinite;
+          animation-timing-function: ease-in-out;
+        }
         .animation-delay-2000 { animation-delay: 2s; }
         .animation-delay-4000 { animation-delay: 4s; }
+        
+        /* Smooth scrolling for mobile */
+        html {
+          scroll-behavior: smooth;
+        }
+        
+        /* Better touch interactions */
+        @media (max-width: 768px) {
+          .social-card {
+            -webkit-tap-highlight-color: transparent;
+          }
+        }
       `}</style>
     </section>
   );

@@ -77,13 +77,13 @@ export default function CartPage() {
             <span className="text-5xl">🛒</span>
           </div>
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Your cart is empty</h2>
-          <p className="text-gray-600 mb-8 max-w-md">
+          <p className="text-gray-600 mb-8 max-w-md text-xl">
             Looks like you haven't added any items to your cart yet. Start shopping to
             discover amazing products!
           </p>
           <button
             onClick={() => window.history.back()}
-            className="bg-red-600 text-white px-8 py-3 rounded-xl hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="bg-orange-600 text-white px-8 py-3 rounded-xl hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
           >
             Continue Shopping
           </button>
@@ -130,7 +130,7 @@ export default function CartPage() {
                   <div className="flex-1">
                     <h3 className="text-l g font-semibold text-gray-800">{item.name}</h3>
                     <p className="text-gray-600 text-xl">Quantity: {item.quantity}</p>
-                    <p className="text-red-600 font-bold">
+                    <p className="text-orange-600 font-bold">
                       ${(item.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
@@ -160,7 +160,7 @@ export default function CartPage() {
             </div>
             <div className="flex justify-between items-center text-xl font-bold mt-3">
               <span className="text-gray-800 text-3xl">Total Amount</span>
-              <span className="text-red-600">${total.toFixed(2)}</span>
+              <span className="text-orange-600">${total.toFixed(2)}</span>
             </div>
           </div>
         </div>
@@ -173,9 +173,9 @@ export default function CartPage() {
             </div>
             <button
               onClick={handleBuyNow}
-              className="bg-red-600 text-white px-8 py-4 rounded-xl hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-bold text-lg w-full sm:w-auto"
+              className="bg-orange-600 text-white px-8 py-4 rounded-xl hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-bold text-lg w-full sm:w-auto"
             >
-              🛍️ Proceed to Checkout
+            Proceed to Checkout
             </button>
           </div>
         </div>
@@ -186,7 +186,7 @@ export default function CartPage() {
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
             {/* Header */}
-            <div className="bg-red-600 p-6 text-white text-center">
+            <div className="bg-orange-600 p-6 text-white text-center">
               <h3 className="text-2xl font-bold">Choose Payment Method</h3>
               <p className="text-red-100 mt-2">Select and then confirm your payment</p>
             </div>
@@ -195,7 +195,7 @@ export default function CartPage() {
             <div className="p-6 max-h-96 overflow-y-auto">
               {isProcessing ? (
                 <div className="text-center py-8">
-                  <div className="w-16 h-16 border-4 border-red-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                  <div className="w-16 h-16 border-4 border-orange-600 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
                   <p className="text-gray-600 font-semibold">
                     Processing {selectedMethod}...
                   </p>
@@ -211,7 +211,7 @@ export default function CartPage() {
                       onClick={() => setSelectedMethod(method.name)}
                       className={`w-full ${
                         selectedMethod === method.name
-                          ? "bg-red-600 text-white scale-[1.02] shadow-md"
+                          ? "bg-orange-600 text-white scale-[1.02] shadow-md"
                           : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                       } py-4 px-6 rounded-xl transition-all duration-200 border border-gray-200 text-left flex items-center justify-between group`}
                     >
@@ -249,7 +249,7 @@ export default function CartPage() {
               <div className="border-t border-gray-200 p-4 bg-gray-50">
                 <button
                   onClick={handlePayment}
-                  className="w-full bg-red-600 text-white py-3 rounded-xl font-bold text-lg hover:bg-red-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full bg-orange-600 text-white py-3 rounded-xl font-bold text-lg hover:bg-orange-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   disabled={!selectedMethod}
                 >
                   {selectedMethod ? `Confirm & Pay with ${selectedMethod}` : "Select a Payment Method"}

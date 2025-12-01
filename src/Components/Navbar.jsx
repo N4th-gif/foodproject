@@ -10,6 +10,12 @@ import {
   Phone,
   LogIn,
   User,
+  Mail,
+  Lock,
+  Eye,
+  EyeOff,
+  AlertCircle,
+  CheckCircle,
 } from "lucide-react";
 import { useCart } from "../pages/CartContext";
 
@@ -17,12 +23,19 @@ export default function Navbar() {
   const { cart } = useCart();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const [isAuthOpen, setIsAuthOpen] = useState(false);
+  const [authMode, setAuthMode] = useState("login"); // 'login' or 'signup'
+  const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState("");
+  const [authSuccess, setAuthSuccess] = useState("");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     phone: "",
+    rememberMe: false,
   });
 
   const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -37,17 +50,100 @@ export default function Navbar() {
   const isActive = (path) => location.pathname === path;
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }));
+    // Clear errors when user starts typing
+    if (authError) setAuthError("");
   };
 
-  const handleSubmit = (e) => {
+  const validateForm = () => {
+    if (!formData.email) {
+      return "Email is required";
+    }
+    if (!formData.password) {
+      return "Password is required";
+    }
+    if (authMode === "signup") {
+      if (!formData.name) return "Full name is required";
+      if (formData.password.length < 6) return "Password must be at least 6 characters";
+      if (!formData.phone) return "Phone number is required";
+    }
+    return null;
+  };
+
+  const handleAuthSubmit = async (e) => {
     e.preventDefault();
-    alert(
-      `✅ Account Created!\n\nName: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}`
-    );
-    setIsLoginOpen(false);
-    setFormData({ name: "", email: "", password: "", phone: "" });
+    
+    const validationError = validateForm();
+    if (validationError) {
+      setAuthError(validationError);
+      return;
+    }
+
+    setIsLoading(true);
+    setAuthError("");
+    setAuthSuccess("");
+
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      if (authMode === "login") {
+        // Simulate login logic
+        console.log("Login attempt:", { email: formData.email, rememberMe: formData.rememberMe });
+        setAuthSuccess("Welcome back! Successfully logged in.");
+        
+        // Close modal after success
+        setTimeout(() => {
+          setIsAuthOpen(false);
+          setAuthSuccess("");
+        }, 2000);
+      } else {
+        // Simulate signup logic
+        console.log("Signup attempt:", formData);
+        setAuthSuccess("Account created successfully! Welcome to Pizza House.");
+        
+        // Switch to login mode after successful signup
+        setTimeout(() => {
+          setAuthMode("login");
+          setAuthSuccess("");
+          setFormData(prev => ({ ...prev, name: "", phone: "", password: "" }));
+        }, 2000);
+      }
+    } catch (error) {
+      setAuthError(authMode === "login" 
+        ? "Invalid email or password. Please try again."
+        : "An error occurred during registration. Please try again."
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const switchAuthMode = () => {
+    setAuthMode(authMode === "login" ? "signup" : "login");
+    setAuthError("");
+    setAuthSuccess("");
+    setFormData(prev => ({ ...prev, password: "" }));
+  };
+
+  const handleForgotPassword = () => {
+    if (!formData.email) {
+      setAuthError("Please enter your email address to reset password.");
+      return;
+    }
+    // Simulate forgot password logic
+    setAuthSuccess(`Password reset instructions sent to ${formData.email}`);
+  };
+
+  const handleSocialLogin = (provider) => {
+    setAuthError("");
+    setAuthSuccess(`Redirecting to ${provider}...`);
+    // In a real app, this would redirect to OAuth flow
+    console.log(`Social login with ${provider}`);
   };
 
   return (
@@ -98,9 +194,9 @@ export default function Navbar() {
               )}
             </Link>
 
-            {/* Login Button */}
+            {/* Auth Button */}
             <button
-              onClick={() => setIsLoginOpen(true)}
+              onClick={() => setIsAuthOpen(true)}
               className="flex items-center gap-2 px-4 py-2 rounded-xl font-semibold text-gray-700 hover:bg-red-50 hover:text-red-500 transition-all duration-200"
             >
               <LogIn size={20} />
@@ -125,7 +221,7 @@ export default function Navbar() {
 
             {/* Profile Icon */}
             <button
-              onClick={() => setIsLoginOpen(true)}
+              onClick={() => setIsAuthOpen(true)}
               className="p-2 rounded-xl bg-white text-gray-700 hover:bg-red-50 hover:text-red-500 transition"
             >
               <User size={25} />
@@ -168,63 +264,196 @@ export default function Navbar() {
       {/* Spacer */}
       <div className="h-20"></div>
 
-      {/* Login Modal */}
-      {isLoginOpen && (
+      {/* Authentication Modal */}
+      {isAuthOpen && (
         <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl p-6 w-full max-w-sm relative animate-fadeIn">
-            <button
-              onClick={() => setIsLoginOpen(false)}
-              className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition"
-            >
-              <X size={22} />
-            </button>
-            <h2 className="text-2xl font-bold text-center mb-5 text-gray-800">
-              Create Account
-            </h2>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-              <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className="border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className="border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-              />
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                required
-                className="border border-gray-300 rounded-xl px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
-              />
+          <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md relative animate-fadeIn">
+            {/* Header */}
+            <div className="flex justify-between items-center p-6 border-b border-gray-200">
+              <h2 className="text-2xl font-bold text-gray-800">
+                {authMode === "login" ? "Welcome Back" : "Create Account"}
+              </h2>
+              <button
+                onClick={() => {
+                  setIsAuthOpen(false);
+                  setAuthError("");
+                  setAuthSuccess("");
+                }}
+                className="text-gray-500 hover:text-red-500 transition p-1 rounded-lg"
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Social Login
+            <div className="p-6 pb-4">
+              <div className="grid grid-cols-2 gap-3 mb-4">
+                <button
+                  onClick={() => handleSocialLogin("Google")}
+                  className="flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+                >
+                  <div className="w-5 h-5 bg-gradient-to-r from-red-400 to-yellow-400 rounded-full" />
+                  <span className="text-sm font-medium">Google</span>
+                </button>
+                <button
+                  onClick={() => handleSocialLogin("Facebook")}
+                  className="flex items-center justify-center gap-2 py-2 px-4 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors"
+                >
+                  <div className="w-5 h-5 bg-blue-600 rounded-full" />
+                  <span className="text-sm font-medium">Facebook</span>
+                </button>
+              </div>
+
+              <div className="relative flex items-center justify-center mb-4">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300"></div>
+                </div>
+                <div className="relative bg-white px-4 text-sm text-gray-500">
+                  or continue with email
+                </div>
+              </div>
+            </div> */}
+
+            {/* Form */}
+            <form onSubmit={handleAuthSubmit} className="p-6 pt-0">
+              {/* Error/Success Messages */}
+              {authError && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl flex items-center gap-2 text-red-700 text-sm">
+                  <AlertCircle size={16} />
+                  {authError}
+                </div>
+              )}
+
+              {authSuccess && (
+                <div className="mb-4 p-3 bg-green-50 border border-green-200 rounded-xl flex items-center gap-2 text-green-700 text-sm">
+                  <CheckCircle size={16} />
+                  {authSuccess}
+                </div>
+              )}
+
+              <div className="space-y-4">
+                {/* Name Field (Signup only) */}
+                {authMode === "signup" && (
+                  <div className="relative">
+                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <input
+                      type="text"
+                      name="name"
+                      placeholder="Full Name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required={authMode === "signup"}
+                      className="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
+                    />
+                  </div>
+                )}
+
+                {/* Email Field */}
+                <div className="relative mt-3">
+                  <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Phone Field (Signup only) */}
+                {authMode === "signup" && (
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Phone Number"
+                      value={formData.phone}
+                      onChange={handleChange}
+                      required={authMode === "signup"}
+                      className="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
+                    />
+                  </div>
+                )}
+
+                {/* Password Field */}
+                <div className="relative">
+                  <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={18} />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-gray-300 rounded-xl pl-10 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-red-400 focus:border-transparent"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+
+                {/* Remember Me & Forgot Password (Login only) */}
+                {authMode === "login" && (
+                  <div className="flex justify-between items-center ">
+                    <label className="flex items-center gap-2 text-sm text-gray-600">
+                      <input
+                        type="checkbox"
+                        name="rememberMe"
+                        checked={formData.rememberMe}
+                        onChange={handleChange}
+                        className="rounded border-gray-300 text-red-500 focus:ring-red-400"
+                      />
+                    Remember me
+                    </label>
+                    <button
+                      type="button"
+                      onClick={handleForgotPassword}
+                      className="text-sm text-red-500 hover:text-red-600 font-medium"
+                    >
+                      Forgot password?
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Submit Button */}
               <button
                 type="submit"
-                className="mt-2 bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold py-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-200"
+                disabled={isLoading}
+                className="w-full mt-3 bg-gradient-to-r from-red-500 to-orange-500 text-white font-semibold py-3 rounded-xl shadow-md hover:shadow-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create Account
+                {isLoading ? (
+                  <div className="flex items-center justify-center gap-2">
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    {authMode === "login" ? "Signing in..." : "Creating account..."}
+                  </div>
+                ) : (
+                  authMode === "login" ? "Sign In" : "Create Account"
+                )}
               </button>
             </form>
+
+            {/* Footer */}
+            <div className="p-6 pt-4 border-t border-gray-200">
+              <div className="text-center text-gray-600">
+                <span>
+                  {authMode === "login" ? "Don't have an account? " : "Already have an account? "}
+                </span>
+                <button
+                  onClick={switchAuthMode}
+                  className="text-red-500 hover:text-red-600 font-semibold"
+                >
+                  {authMode === "login" ? "Sign up" : "Sign in"}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       )}

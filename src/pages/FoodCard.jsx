@@ -15,11 +15,11 @@ export default function FoodCard({ name, price, img }) {
       </div>
 
       <h4 className="text-lg font-semibold text-gray-800">{name}</h4>
-      <p className="text-red-500 font-bold text-md mb-2">${price}</p>
+      <p className="text-orange-500 font-bold text-md mb-2">${price}</p>
 
       <button
         onClick={() => addToCart({ name, price, img })}
-        className="bg-red-500 text-white px-4 py-2 rounded-lg w-full hover:bg-red-600 transition-all duration-300"
+        className="bg-orange-400 text-white px-4 py-2 rounded-lg w-full hover:bg-red-600 transition-all duration-300"
       >
         Add to Cart
       </button>

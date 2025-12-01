@@ -4,7 +4,7 @@ import FoodCard from "./FoodCard.jsx";
 export default function Menu() {
   const pizzas = [
     { name: "Margherita Pizza", price: 8.99, img: "https://i.pinimg.com/1200x/9d/2f/62/9d2f62b46c1a23bd26df0d455c3a388f.jpg" },
-    { name: "Pepperoni Pizza", price: 9.99, img: "https://i.pinimg.com/736x/53/df/5d/53df5dbaa0f301ff3b7cca44579b5681.jpg" },
+    { name: "Pepperoni Pizza", price: 9.99, img: "https://i.pinimg.com/736x/50/0a/49/500a4983d3d45d39d9ecf5aa41aae8cf.jpg" },
     { name: "BBQ Chicken Pizza", price: 10.99, img: "https://i.pinimg.com/1200x/ec/1f/d3/ec1fd366a2a14042715fefeb346f5814.jpg" },
     { name: "Veggie Delight Pizza", price: 7.99, img: "https://i.pinimg.com/1200x/7c/c1/8e/7cc18e3ae1d1be0e03edd5c786253a05.jpg" },
     { name: "Hawaiian Pizza", price: 9.49, img: "https://i.pinimg.com/1200x/9d/b7/50/9db750a4eafcf1d1fb551520018c8bf6.jpg" },

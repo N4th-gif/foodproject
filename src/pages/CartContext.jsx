@@ -5,6 +5,7 @@ const CartContext = createContext();
 export function CartProvider({ children }) {
   const [cart, setCart] = useState([]);
 
+  // Add item (default +1)
   const addToCart = (item) => {
     setCart((prevCart) => {
       const existing = prevCart.find((i) => i.name === item.name);
@@ -17,17 +18,49 @@ export function CartProvider({ children }) {
     });
   };
 
+  // Remove item
   const removeFromCart = (name) => {
     setCart((prevCart) => prevCart.filter((item) => item.name !== name));
   };
 
-  // ✅ Add this function
-  const clearCart = () => {
-    setCart([]); // Remove all items from cart
+  // Clear cart
+  const clearCart = () => setCart([]);
+
+  // Increase quantity
+  const increaseQuantity = (name) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.name === name
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
+    );
+  };
+
+  // Decrease quantity (min 1)
+  const decreaseQuantity = (name) => {
+    setCart((prevCart) =>
+      prevCart
+        .map((item) =>
+          item.name === name
+            ? { ...item, quantity: Math.max(1, item.quantity - 1) }
+            : item
+        )
+        .filter((item) => item.quantity > 0)
+    );
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        increaseQuantity,
+        decreaseQuantity,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );

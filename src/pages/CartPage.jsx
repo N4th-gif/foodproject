@@ -2,16 +2,14 @@ import React, { useState } from "react";
 import { useCart } from "./CartContext";
 
 export default function CartPage() {
-  const { cart, removeFromCart, clearCart } = useCart();
+  const { cart, removeFromCart, clearCart, increaseQuantity, decreaseQuantity } = useCart();
   const [showPaymentOptions, setShowPaymentOptions] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  const handleBuyNow = () => {
-    setShowPaymentOptions(true);
-  };
+  const handleBuyNow = () => setShowPaymentOptions(true);
 
   const handlePayment = async () => {
     if (!selectedMethod) {
@@ -21,52 +19,26 @@ export default function CartPage() {
 
     setIsProcessing(true);
 
-    // Simulate payment delay
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     setIsProcessing(false);
     setShowPaymentOptions(false);
 
-    alert(`✅ Payment Successful via ${selectedMethod}!\n\n📦 Order Summary:\nTotal: $${total.toFixed(2)}\nItems: ${cart.length}\n\nThank you for your purchase! 🛍️`);
+    alert(
+      `✅ Payment Successful via ${selectedMethod}!\n\n📦 Order Summary:\nTotal: $${total.toFixed(
+        2
+      )}\nItems: ${cart.length}\n\nThank you for your purchase! 🛍️`
+    );
+
     clearCart();
   };
 
   const paymentMethods = [
-    {
-      id: "aba",
-      name: "ABA Pay",
-      description: "Fast & Secure Banking",
-      icon: "",
-      popular: true,
-    },
-    {
-      id: "khqr",
-      name: "KHQR",
-      description: "Cambodia's QR Standard",
-      icon: "",
-      popular: false,
-    },
-    {
-      id: "card",
-      name: "Credit/Debit Card",
-      description: "Visa, Mastercard, UnionPay",
-      icon: "",
-      popular: true,
-    },
-    {
-      id: "paypal",
-      name: "PayPal",
-      description: "International Payments",
-      icon: "",
-      popular: false,
-    },
-    {
-      id: "delivery",
-      name: "Pay on Delivery",
-      description: "Cash when you receive",
-      icon: "",
-      popular: false,
-    },
+    { id: "aba", name: "ABA Pay", description: "Fast & Secure Banking", popular: true },
+    { id: "khqr", name: "KHQR", description: "Cambodia's QR Standard", popular: false },
+    { id: "card", name: "Credit/Debit Card", description: "Visa, Mastercard, UnionPay", popular: true },
+    { id: "paypal", name: "PayPal", description: "International Payments", popular: false },
+    { id: "delivery", name: "Pay on Delivery", description: "Cash when you receive", popular: false },
   ];
 
   if (cart.length === 0) {
@@ -78,8 +50,7 @@ export default function CartPage() {
           </div>
           <h2 className="text-3xl font-bold text-gray-800 mb-4">Your cart is empty</h2>
           <p className="text-gray-600 mb-8 max-w-md text-xl">
-            Looks like you haven't added any items to your cart yet. Start shopping to
-            discover amazing products!
+            Looks like you haven't added any items to your cart yet. Start shopping!
           </p>
           <button
             onClick={() => window.history.back()}
@@ -95,6 +66,7 @@ export default function CartPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
+
         {/* Header */}
         <div className="text-center mb-3">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
@@ -128,19 +100,40 @@ export default function CartPage() {
                     className="w-20 h-20 rounded-xl object-cover shadow-md"
                   />
                   <div className="flex-1">
-                    <h3 className="text-l g font-semibold text-gray-800">{item.name}</h3>
-                    <p className="text-gray-600 text-xl">Quantity: {item.quantity}</p>
-                    <p className="text-orange-600 font-bold">
+                    <h3 className="text-lg font-semibold text-gray-800">{item.name}</h3>
+
+                    {/* Quantity Controls */}
+                    <div className="flex items-center gap-4 mt-2">
+                      <button
+                        onClick={() => decreaseQuantity(item.name)}
+                        className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-xl font-bold hover:bg-gray-300"
+                      >
+                        −
+                      </button>
+
+                      <span className="text-xl font-semibold">{item.quantity}</span>
+
+                      <button
+                        onClick={() => increaseQuantity(item.name)}
+                        className="w-8 h-8 flex items-center justify-center bg-gray-200 rounded-lg text-xl font-bold hover:bg-gray-300"
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <p className="text-orange-600 font-bold mt-1">
                       ${(item.price * item.quantity).toFixed(2)}
                     </p>
                   </div>
                 </div>
+
+                {/* Remove button */}
                 <button
                   onClick={() => removeFromCart(item.name)}
                   className="p-2 hover:bg-red-50 rounded-lg transition-colors duration-200 group"
                   title="Remove item"
                 >
-                  <span className="text-gray-400 group-hover:text-red-500 text-3xl font-bold transition-colors duration-200">
+                  <span className="text-gray-400 group-hover:text-red-500 text-3xl font-bold">
                     ✕
                   </span>
                 </button>
@@ -175,23 +168,21 @@ export default function CartPage() {
               onClick={handleBuyNow}
               className="bg-orange-600 text-white px-8 py-4 rounded-xl hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl font-bold text-lg w-full sm:w-auto"
             >
-            Proceed to Checkout
+              Proceed to Checkout
             </button>
           </div>
         </div>
       </div>
 
-      {/* Payment Modal */}
+      {/* PAYMENT MODAL */}
       {showPaymentOptions && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-60 z-50 p-4">
+        <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center p-4">
           <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden">
-            {/* Header */}
             <div className="bg-orange-600 p-6 text-white text-center">
               <h3 className="text-2xl font-bold">Choose Payment Method</h3>
               <p className="text-red-100 mt-2">Select and then confirm your payment</p>
             </div>
 
-            {/* Payment Options */}
             <div className="p-6 max-h-96 overflow-y-auto">
               {isProcessing ? (
                 <div className="text-center py-8">
@@ -215,36 +206,26 @@ export default function CartPage() {
                           : "bg-gray-100 text-gray-800 hover:bg-gray-200"
                       } py-4 px-6 rounded-xl transition-all duration-200 border border-gray-200 text-left flex items-center justify-between group`}
                     >
-                      <div className="flex items-center gap-4">
-                        <span className="text-2xl">{method.icon}</span>
-                        <div>
-                          <div className="font-bold text-lg">{method.name}</div>
-                          <div className={`text-sm ${
-                            selectedMethod === method.name ? "text-white/90" : "text-gray-600"
-                          }`}>
-                            {method.description}
-                          </div>
+                      <div>
+                        <div className="font-bold text-lg">{method.name}</div>
+                        <div className={`text-sm ${
+                          selectedMethod === method.name ? "text-white/90" : "text-gray-600"
+                        }`}>
+                          {method.description}
                         </div>
                       </div>
-                      <div className="flex items-center gap-2">
-                        {method.popular && (
-                          <span className="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                            POPULAR
-                          </span>
-                        )}
-                        {selectedMethod === method.name && (
-                          <span className="bg-white text-red-600 text-xs font-bold px-2 py-1 rounded-full">
-                            SELECTED
-                          </span>
-                        )}
-                      </div>
+
+                      {method.popular && (
+                        <span className="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full">
+                          POPULAR
+                        </span>
+                      )}
                     </button>
                   ))}
                 </div>
               )}
             </div>
 
-            {/* Confirm Payment */}
             {!isProcessing && (
               <div className="border-t border-gray-200 p-4 bg-gray-50">
                 <button
